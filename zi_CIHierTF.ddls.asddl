@@ -1,0 +1,26 @@
+@EndUserText.label: 'Commitment Item Hierarcy Table Function'
+define table function zi_CIHierTF
+  with parameters
+    p_FIKRS    : fikrs,
+    @Environment.systemField: #CLIENT
+    p_clnt     : abap.clnt,
+    p_setclass : setclass,
+    p_SETNAME  : setnamenew
+
+returns
+{
+  client            : s_mandt;
+  FIKRS             : fikrs;
+  FIPEX             : fipex; // Commitment item
+  NodeKind          : nchar;     -- 'C' = Commitment Item leaf, 'S' = Set node
+  SetText           : stext;
+  ParentSet         : setname;   // Ancestor set (at each level)
+  ParentLevel       : abap.int4; // 1 = immediate parent, 2 = grandparent, ...
+  ParentSetText     : stext;     // Set short text (if maintained)
+  RootSet           : setname;   // Should be 03111000TOTAL for all rows
+  SetSequenceNumber : setlnseqnr;
+  Path              : abap.char(500); // Root->...->Parent chain (for debugging)
+
+}
+implemented by method
+  zcl_fm_ci_hier_amdp=>get; 

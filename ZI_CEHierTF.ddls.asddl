@@ -1,0 +1,24 @@
+@EndUserText.label: 'Cost Element Group Expansion'
+define table function ZI_CEHierTF
+ with parameters
+    p_KTOPL    : KTOPL,        
+    @Environment.systemField: #CLIENT
+    p_clnt     : abap.clnt,
+    p_setclass : setclass,
+    p_setname  : setnamenew
+
+returns
+{
+  client            : s_mandt;
+  KTOPL             : KTOPL;          
+  racct             : racct;          
+  SetText           : stext;
+  ParentSet         : setname;        // Ancestor set (at each level)
+  ParentLevel       : abap.int4;      // 1 = immediate parent, 2 = grandparent, ...
+  ParentSetText     : stext;          // Set short text (if maintained)
+  RootSet           : setname;        // Root set name
+  SetSequenceNumber : setlnseqnr;
+  Path              : abap.char(500); // Root->...->Parent chain (for debugging)
+}
+implemented by method
+  zcl_fm_ce_hier_amdp=>get;
